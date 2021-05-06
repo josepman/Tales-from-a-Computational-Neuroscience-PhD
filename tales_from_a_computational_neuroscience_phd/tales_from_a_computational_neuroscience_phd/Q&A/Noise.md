@@ -53,31 +53,31 @@ Global smoothness of images used for the fMRI time series for Standard (red) and
 https://www.biorxiv.org/content/10.1101/2020.11.04.368357v3.full.pdf
 
 
-#### P2S
-
-###### 1. “PCA-based methods place the assumptions on the signal, which can be really hard to model in fact. In patch2self, we place it in the noise: it is safe to assume that thermal noise in one volume is independent of the noise in the next and previous volume.” Is not the MP law and so on actually making the assumption on a Random Matrix (i.e. in the noise)? In fact, making assumptions for the noise model is not the same than making it in the data (or this only applies for Gaussian noise because x+N~N)?
-
-###### 1. If the noise is independent, how can we actually predict it? Is it not making a kind of“imputation”?
-
-###### 1. Why using ALL-BUT-ONE volumes instead of a typical 80-20 splitting? Is there any control/risk for overfitting (especially for long acquisition datasets like the HCP)? Have they tried k-fold and checked whether the error were consistent? Actually, they said “there is no minimum n_vols for patch2self in contrast to MPPCA (>30)” so…why not use less volumes to make it faster?
-
-###### 1. They don’t use patches (radius=0 is the recommended)…shall we observe any covariance then if we analyse the residuals of neighbor voxels?
-
-###### 1. They said it makes sense to apply PCA-based + patch2self. If yes…it would not matter which one use first, right?
-
-###### 1. At then end, patch2self is a linear regression. Residuals of linear regression have a series of assumptions (same variance, etc.). Could we extract any info from here?
-
-
-###### 1. Jesper Andersson commented 2 interesting things:
-	1. After the training they then go on to make the predictions that form the basis for their denoised data. Now, I might have misunderstood this because it sounds so strange, but this is how I understand it. They again use the data from all volumes except one to make the prediction for the left out one. Which would mean that when you predict volume j, you don't actually use any of the information in volume j. I hope I have misunderstood it.
-	2. “Anyhoo, my strong prediction here is that similarly to replacing all the data with "model" predictions from eddy or SHARD, this will make any inference on the data (such as number of fibres) difficult or impossible.” — WHY???
-
-###### 1. I’m not sure about this (nor if it was covered in the lecture): if you are effectively fitting a regression model with patch2self, are you assuming some statistical properties in the residuals ()? If yes, would it make sense to apply it to complex data? 
-- They don’t have support for complex data yet, but it should be fine applying it to magnitude, they don’t assume anything (but as previous question, they haven’t checked this)
-
-
-###### 1. Finally, is Patch2self modifying the distribution of data? I mean, in some pre-processing and modelling steps you are assuming a noise model (e.g. gaussian in the ball&sticks). Is this modifying these properties? Can we expect any type of conflict or something we should take care of? — MPPCA affects because includes correlated noise and EDDY can fail. Patch2self does not in theory.
-
-
-###### 1. How have you validated or controlled the possible spatial smoothing induced during denoising with Patch2self? 
-- Checking the residuals qualitatively (Abs(residuals) should not have any edge or structure) and they didnt see any structure (as you could see in non-local means).
+<!-- #### P2S -->
+<!--  -->
+<!-- ###### 1. “PCA-based methods place the assumptions on the signal, which can be  --><!-- really hard to model in fact. In patch2self, we place it in the noise: it is  --><!-- safe to assume that thermal noise in one volume is independent of the noise in  --><!-- the next and previous volume.” Is not the MP law and so on actually making the  --><!-- assumption on a Random Matrix (i.e. in the noise)? In fact, making assumptions  --><!-- for the noise model is not the same than making it in the data (or this only  --><!-- applies for Gaussian noise because x+N~N)? -->
+<!--  -->
+<!-- ###### 1. If the noise is independent, how can we actually predict it? Is it not  --><!-- making a kind of“imputation”? -->
+<!--  -->
+<!-- ###### 1. Why using ALL-BUT-ONE volumes instead of a typical 80-20 splitting? Is  --><!-- there any control/risk for overfitting (especially for long acquisition datasets  --><!-- like the HCP)? Have they tried k-fold and checked whether the error were  --><!-- consistent? Actually, they said “there is no minimum n_vols for patch2self in  --><!-- contrast to MPPCA (>30)” so…why not use less volumes to make it faster? -->
+<!--  -->
+<!-- ###### 1. They don’t use patches (radius=0 is the recommended)…shall we observe  --><!-- any covariance then if we analyse the residuals of neighbor voxels? -->
+<!--  -->
+<!-- ###### 1. They said it makes sense to apply PCA-based + patch2self. If yes…it  --><!-- would not matter which one use first, right? -->
+<!--  -->
+<!-- ###### 1. At then end, patch2self is a linear regression. Residuals of linear  --><!-- regression have a series of assumptions (same variance, etc.). Could we extract  --><!-- any info from here? -->
+<!--  -->
+<!--  -->
+<!-- ###### 1. Jesper Andersson commented 2 interesting things: -->
+<!-- 	1. After the training they then go on to make the predictions that form the  --><!-- basis for their denoised data. Now, I might have misunderstood this because  --><!-- it sounds so strange, but this is how I understand it. They again use the  --><!-- data from all volumes except one to make the prediction for the left out  --><!-- one. Which would mean that when you predict volume j, you don't actually use  --><!-- any of the information in volume j. I hope I have misunderstood it. -->
+<!-- 	2. “Anyhoo, my strong prediction here is that similarly to replacing all the  --><!-- data with "model" predictions from eddy or SHARD, this will make any  --><!-- inference on the data (such as number of fibres) difficult or impossible.” —  --><!-- WHY??? -->
+<!--  -->
+<!-- ###### 1. I’m not sure about this (nor if it was covered in the lecture): if you  --><!-- are effectively fitting a regression model with patch2self, are you assuming  --><!-- some statistical properties in the residuals ()? If yes, would it make sense to  --><!-- apply it to complex data?  -->
+<!-- - They don’t have support for complex data yet, but it should be fine applying  --><!-- it to magnitude, they don’t assume anything (but as previous question, they  --><!-- haven’t checked this) -->
+<!--  -->
+<!--  -->
+<!-- ###### 1. Finally, is Patch2self modifying the distribution of data? I mean, in  --><!-- some pre-processing and modelling steps you are assuming a noise model (e.g.  --><!-- gaussian in the ball&sticks). Is this modifying these properties? Can we expect  --><!-- any type of conflict or something we should take care of? — MPPCA affects  --><!-- because includes correlated noise and EDDY can fail. Patch2self does not in  --><!-- theory. -->
+<!--  -->
+<!--  -->
+<!-- ###### 1. How have you validated or controlled the possible spatial smoothing  --><!-- induced during denoising with Patch2self?  -->
+<!-- - Checking the residuals qualitatively (Abs(residuals) should not have any edge  --><!-- or structure) and they didnt see any structure (as you could see in non-local  --><!-- means). -->
