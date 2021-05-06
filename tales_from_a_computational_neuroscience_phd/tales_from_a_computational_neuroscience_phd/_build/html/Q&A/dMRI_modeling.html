@@ -1,0 +1,271 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>General questions about dMRI modeling &#8212; Tales from a computational neuroscience PhD</title>
+    
+  <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.e7340bb3dbd8dde6db86f25597f54a1b.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Tales from a computational neuroscience PhD</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../intro.html">
+   Welcome to your Jupyter Book
+  </a>
+ </li>
+</ul>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../content.html">
+   Content in Jupyter Book
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../markdown.html">
+     Markdown Files
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../notebooks.html">
+     Content with notebooks
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/Q&A/dMRI_modeling.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                    title="Fullscreen mode"><i
+                        class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="general-questions-about-dmri-modeling">
+<h1>General questions about dMRI modeling<a class="headerlink" href="#general-questions-about-dmri-modeling" title="Permalink to this headline">¶</a></h1>
+<ul>
+<li><p>What’s the difference between ODF, diffusion ODF and fibre ODF?</p></li>
+<li><p>Can we say all dMRI modeling approaches are model-based and that they use deconvolution? What’s their difference then?</p></li>
+<li><p>What are the response functions?
+They are typically delta functions.</p></li>
+<li><p>Is there any evidence of differences of the response function between different regions of the brain in a healthy subject (or dependences with other parameters like density of fibres in a region or something like that)?
+I’m not aware of any papers showing spatial variation of the WM response function, but there are papers claiming that the characteristic axon diameter varies with location. That suggests the response function probably should vary, but I don’t know how to go from axon diameter to response function, or how to measure the response function outside the corpus callosum (Etienne St-Onge).</p>
+<p>Hidden away in Chantal Tax’s thesis (chapter 6) she shows that there is indeed a spatial variation of the response function. It varies across pathways more than across subjects (<a class="reference external" href="https://www.narcis.nl/publication/RecordID/oai:dspace.library.uu.nl:1874%2F337377">https://www.narcis.nl/publication/RecordID/oai:dspace.library.uu.nl:1874/337377</a>).</p>
+<p>Tournier has a paper suggesting that this kernel is not accurate for the whole brain but it is really</p>
+<p>Sorry for long answers: Also my favorite work From Oxford (<a class="reference external" href="https://pubmed.ncbi.nlm.nih.gov/31315062/">https://pubmed.ncbi.nlm.nih.gov/31315062/</a>) using histology! The kernel seems varies across the brain. Butttt it may not matter (<a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S1053811919310511">https://www.sciencedirect.com/science/article/pii/S1053811919310511</a>) - this is the MRTrix paper Etienne refers to. A single kernel is probably adequate</p>
+<p>Interesting view on response function (Ex vivo validation, good stuff):
+<a class="reference external" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6525086">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6525086</a></p>
+</li>
+<li><p>When to use model-based and model-free? What are their main differences in terms of tractography performance?</p></li>
+<li><p>Why is the difficulty of dealing with multiple tissues (GM,WM, CSF) appearing
+only in multi-shell acquisition and not in single shell?
+The difficulty is there as well for single-shell deconv. But single-shell
+deconv only gives WM fODFs, it cannot produce GM and CSF fODFs as it lacks the
+multi b-values to do so properly.</p></li>
+<li><p>What’s the difference between CSD and BedpostX (Ball&amp;Sticks)?
+In terms of comparison with bedpostx, hard to say for sure, as there is a lack of comparative papers. For me, they produce similar results but the output and methods are conceptually quite different. I recommend you read our review paper: Jeurissen et al NMR Biomed 2017 where we discuss this point - M. Descoteaux.</p></li>
+<li><p>What’s the point in using a deterministic tractography approach rather than a probabilistic one that can give us a measure of uncertainty?
+Deterministic tractography is useful if the data dMRI quality is low (e.g .very few measurements, low SNR). It is also useful for visualization/quality check, and for analysis focusing on the main trajectory of bundles. Also, some researchers prefer to have less variability, and may prefer to have less False positive at te cost of more False negative. So its a sensitivity specificity trade-off. However this also affect post-processing (filtering, segmentation etc).</p></li>
+<li><p>What about global tractography approaches (rather than local propagation of streamlines)?
+Global approaches are very interesting, but more complex (to implement, to use and to understand the parameters), however the still have similar “local” limitation as step-wise tracking, and are a lot more computationaly intensive. Nevertheless, they have a huge potential for future development. They work very well in control environments, but on real data, they often lack surface coverage or miss part of bundles, or small bundles. Semi-global approaches are certainly among the best method for whole-brain tractography estimation (e.g. COMMIT/SIFT2 where streamlines method are used to estimate the trajectories, then streamlines are weighted/pruned following a microstructure model).</p></li>
+<li><p>Is there any evidence of asymmetry in the structural connectivity, i.e. that from A to B is different than from B to A (e.g., diffusivity is not the same in +x and -x)?
+Local diffusion is symetric, however starting from A and reach B might be “easier” from the reverse (B-&gt;A) because of crossing and other local complexity of FOD. This is amplified when using interface / surface seeding (and stepwise tractography). It is important to note that this is an effect of pathway/trajectory complexity and configurations over tractography, not brain connectivity assymetry. Most people tend to afterward symmetrize the matrix, or do as I mentionned in my presentation A-B = B-A (count for both).
+You can construct a synthetic configuration where the number of streamline between A-B is different depending on the seeding location. This is a bias of the seeding, and a bais of tracking, preferring some configurations over other (e.g. straight bundles).</p></li>
+</ul>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./Q&A"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By J.P. Manzano-Patron<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+  </body>
+</html>

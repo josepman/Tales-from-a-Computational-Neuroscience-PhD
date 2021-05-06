@@ -1,0 +1,524 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NOISE IN dMRI &#8212; Tales from a computational neuroscience PhD</title>
+    
+  <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.e7340bb3dbd8dde6db86f25597f54a1b.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Tales from a computational neuroscience PhD</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../intro.html">
+   Welcome to your Jupyter Book
+  </a>
+ </li>
+</ul>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../content.html">
+   Content in Jupyter Book
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../markdown.html">
+     Markdown Files
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../notebooks.html">
+     Content with notebooks
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/Q&A/Noise.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                    title="Fullscreen mode"><i
+                        class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i>
+            Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#pca-based-denoising">
+   PCA-based denoising
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#mppca-extracts-n-gradients-pcs-and-then-do-the-selection-on-them-how-is-it-done-in-nordic-is-the-patch-radius-the-same-in-mppca-and-nordic-should-it-be-could-this-be-biasing-our-comparisons-if-not-how-do-they-decide-the-patch-size-in-mppca-the-recommendation-is-to-go-for-radius-2-but-i-dont-know-why">
+     1. MPPCA extracts n_gradients PCs and then do the selection on them. How is it done in NORDIC? Is the patch_radius the same in MPPCA and NORDIC? Should it be? Could this be “biasing” our comparisons if not? How do they decide the patch size? In MPPCA, the recommendation is to go for radius=2 (but I don’t know why)?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#we-keep-the-larger-eigenvalues-because-the-higher-variability-should-correspond-to-the-signal-can-we-assume-this-as-true-even-in-very-low-snr-scenarios-i-e-why-cant-be-one-of-the-biggest-singular-values-related-to-noise-e-g-any-property-of-the-noise">
+     2. We keep the larger eigenvalues because the higher variability should correspond to the signal. Can we assume this as true even in very low SNR scenarios? I.e., Why can’t be one of the biggest singular values related to noise (e.g. any property of the noise)?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#assuming-we-are-not-having-any-structure-in-the-residuals-either-in-mppca-or-patch2self-what-distribution-should-follow-the-residuals-maps-white-noise-or-actually-a-rician-non-central-chi-distribution">
+     3. Assuming we are not having any structure in the residuals (either in MPPCA or Patch2self)…what distribution should follow the residuals maps? white noise or actually a rician / non-central chi distribution?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#we-want-to-know-at-which-resolution-we-are-after-denoising-how-can-we-check-this-quantitatively-in-the-fmri-paper-they-compare-t-stats-and-said-nordic-didnt-induce-blurring-but-why-how-did-they-check-it-is-not-working-with-the-covariance-of-the-patch-something-similar-to-a-spatial-gaussian-filter-in-fact-they-said-it-is-identical-to-the-averaged-ones-so-does-not-introduce-blurring-supp-fig-10-dipy-workshop-spatial-smoothing-is-checking-if-the-residuals-present-any-structure-like-in-nlmeans-how-to-check-whether-phase-stabilization-is-smoothing-or-affecting-the-snr-at-all">
+     4. “We want to know at which resolution we are after denoising”…how can we check this quantitatively? In the fMRI paper they compare t-stats and said NORDIC didn’t induce blurring but why? how did they check it? Is not working with the covariance of the patch something “similar” to a spatial gaussian filter? In fact, they said it is identical to the averaged ones, so does not introduce blurring (Supp.Fig.10)! DIPY workshop: spatial smoothing is checking if the residuals present any structure (like in NLMeans). How to check whether “phase stabilization is smoothing or affecting the SNR at all”?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#do-mppca-and-or-nordic-anything-with-the-localization-of-the-eigenvectors-and-the-sparsity-induced-of-data-requirements-of-the-rmt">
+     5. Do MPPCA and/or NORDIC anything with the localization of the eigenvectors and the sparsity induced of data? (requirements of the RMT)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#in-cases-where-the-signal-is-really-low-and-noise-causes-rectification-how-does-nordic-and-mppca-teat-these-voxels">
+     6. In cases where the signal is really low and noise causes rectification, how does NORDIC and MPPCA teat these voxels?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#is-there-a-way-to-hack-nordic-and-make-it-work-for-cases-where-only-magnitude-sense1-data-are-present-e-g-uk-biobank-if-we-assign-the-magnitude-to-the-real-channel-and-zero-mean-noise-to-the-imaginary-will-it-work-could-this-be-applied-retrospectively-to-uk-biobank">
+     7. Is there a way to “hack” NORDIC and make it work for cases where only magnitude SENSE1 data are present? E.g. UK Biobank? If we assign the magnitude to the real channel and zero-mean noise to the imaginary, will it work? Could this be applied retrospectively to UK Biobank?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#does-it-make-sense-to-model-the-noise-floor-f0-ardf0-specially-for-the-offline-data">
+     7. does it make sense to model the noise floor (
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --f0
+      </span>
+      <span class="pre">
+       --ardf0
+      </span>
+     </code>
+     ), specially for the offline data?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#why-cannot-we-assume-gaussian-noise-for-snr-3-instead-of-rician-is-the-snr-and-cnr-we-have-relatively-low">
+     8. Why cannot we assume Gaussian noise (for SNR&gt;3) instead of rician? Is the SNR and CNR we have relatively low?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#jesper-said-i-would-definitely-not-think-it-unlikely-that-they-can-add-some-real-and-useful-information-by-having-access-to-the-phase-so-what-extra-information-do-they-extract-from-the-complex-image-why-do-they-keep-the-phase">
+     9. Jesper said “I would definitely not think it unlikely that they can add some real and useful information by having access to the phase” so…What extra information do they extract from the complex image? Why do they keep the phase?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#using-complex-data-phase-stabilization-without-phase-stabilization-the-diffusion-phase-has-a-high-frequency-fluctuation-along-the-slice-direction-this-limits-the-efficacy-of-the-llr-representation-model-not-allowing-for-an-effectively-low-rank-representation">
+     10. Using complex data + phase-stabilization —&gt; Without phase-stabilization, the diffusion phase has a high frequency fluctuation along the slice direction. This limits the efficacy of the LLR representation model, not allowing for an effectively low-rank representation.
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#if-its-diffusion-are-we-working-in-k-space-or-q-space-why-have-i-read-k-space-in-multiple-places-reconstruction-of-the-images-is-the-step-from-k-space-to-the-actual-image-we-processes-right-whats-the-difference-between-doing-it-online-and-offline-the-dicom-image-is-in-k-space-and-the-nifti-in-image-space-spatial-resolution-sampling-k-space-or-a-higher-angular-resolution-sampling-q-space-angles">
+     11. If it’s diffusion, are we working in k-space or q-space? Why have I read k-space in multiple places? Reconstruction of the images is the step from k-space to the actual image we processes, right? What’s the difference between doing it online and offline? The DICOM image is in k-space and the nifti in image space? spatial resolution (sampling k-space) or a higher angular resolution (sampling q-space angles)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#what-else-should-we-expect-from-nordic-than-from-mppca-as-far-as-i-understood-it-is-the-same-approach-but-they-correct-the-algorithm-to-take-into-account-for-finite-sized-matrices-and-some-statistical-assumptions-from-the-rmt-theory-but-the-mppca-paper-said-was-ok-in-practice-why-such-difference">
+     12. What else should we expect from NORDIC than from MPPCA? As far as I understood, it is the same approach but they correct the algorithm to take into account for finite-sized matrices and some statistical assumptions from the RMT theory, but the MPPCA paper said was OK in practice. Why such difference?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#can-we-always-assume-additive-noise-and-what-about-statistical-dependencies-is-the-spatially-varying-property-of-noise-because-of-the-sense1-reconstruction-with-multi-channel">
+     13. Can we always assume additive noise? And what about statistical dependencies? Is the spatially varying property of noise because of the SENSE1 reconstruction with multi-channel?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#why-the-noise-is-i-i-d-or-stop-being-it">
+     14. Why the noise is i.i.d. or stop being it?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#how-is-the-snr-calculated-in-eddyqc-with-the-2-regions-approaches-it-may-be-biased-dietrich-et-al-2007">
+     15. How is the SNR calculated in EddyQC? With the 2-regions approaches? It may be biased! (Dietrich et al. 2007).
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#jesper-is-less-skeptical-about-k-space-filtering-than-image-based-ones-why-what-k-space-filter-methods-there-are-the-image-based-ones-attempt-to-disentangle-noise-and-signal-with-no-more-information-at-hand-than-that-available-to-for-example-model-based-or-model-free-fitting-of-the-data-so-i-struggle-to-see-how-that-can-provide-anything-meaningful">
+     16. Jesper is less skeptical about k-space filtering than image-based ones. Why? What k-space filter methods there are? “The image based ones attempt to disentangle noise and signal with no more information at hand than that available to for example model-based or model-free fitting of the data. So I struggle to see how that can provide anything meaningful.
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#why-local-low-rank-approximations-instead-of-low-rank-approximations-of-the-whole-matrices-volumes-or-whatever-because-of-the-spatially-varying-noise-the-paper-of-the-llrma-of-google-said-that-with-local-approximations-the-perform-is-better">
+     17. Why local low-rank approximations instead of low-rank approximations of the whole matrices (volumes or whatever)? Because of the spatially varying noise? (The paper of the LLRMA of Google said that with local approximations the perform is better).
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#p2s">
+   P2S
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pca-based-methods-place-the-assumptions-on-the-signal-which-can-be-really-hard-to-model-in-fact-in-patch2self-we-place-it-in-the-noise-it-is-safe-to-assume-that-thermal-noise-in-one-volume-is-independent-of-the-noise-in-the-next-and-previous-volume-is-not-the-mp-law-and-so-on-actually-making-the-assumption-on-a-random-matrix-i-e-in-the-noise-in-fact-making-assumptions-for-the-noise-model-is-not-the-same-than-making-it-in-the-data-or-this-only-applies-for-gaussian-noise-because-x-n-n">
+     1. “PCA-based methods place the assumptions on the signal, which can be really hard to model in fact. In patch2self, we place it in the noise: it is safe to assume that thermal noise in one volume is independent of the noise in the next and previous volume.” Is not the MP law and so on actually making the assumption on a Random Matrix (i.e. in the noise)? In fact, making assumptions for the noise model is not the same than making it in the data (or this only applies for Gaussian noise because x+N~N)?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#if-the-noise-is-independent-how-can-we-actually-predict-it-is-it-not-making-a-kind-ofimputation">
+     1. If the noise is independent, how can we actually predict it? Is it not making a kind of“imputation”?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#why-using-all-but-one-volumes-instead-of-a-typical-80-20-splitting-is-there-any-control-risk-for-overfitting-especially-for-long-acquisition-datasets-like-the-hcp-have-they-tried-k-fold-and-checked-whether-the-error-were-consistent-actually-they-said-there-is-no-minimum-n-vols-for-patch2self-in-contrast-to-mppca-30-so-why-not-use-less-volumes-to-make-it-faster">
+     1. Why using ALL-BUT-ONE volumes instead of a typical 80-20 splitting? Is there any control/risk for overfitting (especially for long acquisition datasets like the HCP)? Have they tried k-fold and checked whether the error were consistent? Actually, they said “there is no minimum n_vols for patch2self in contrast to MPPCA (&gt;30)” so…why not use less volumes to make it faster?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#they-dont-use-patches-radius-0-is-the-recommended-shall-we-observe-any-covariance-then-if-we-analyse-the-residuals-of-neighbor-voxels">
+     1. They don’t use patches (radius=0 is the recommended)…shall we observe any covariance then if we analyse the residuals of neighbor voxels?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#they-said-it-makes-sense-to-apply-pca-based-patch2self-if-yes-it-would-not-matter-which-one-use-first-right">
+     1. They said it makes sense to apply PCA-based + patch2self. If yes…it would not matter which one use first, right?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#at-then-end-patch2self-is-a-linear-regression-residuals-of-linear-regression-have-a-series-of-assumptions-same-variance-etc-could-we-extract-any-info-from-here">
+     1. At then end, patch2self is a linear regression. Residuals of linear regression have a series of assumptions (same variance, etc.). Could we extract any info from here?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#jesper-andersson-commented-2-interesting-things">
+     1. Jesper Andersson commented 2 interesting things:
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#im-not-sure-about-this-nor-if-it-was-covered-in-the-lecture-if-you-are-effectively-fitting-a-regression-model-with-patch2self-are-you-assuming-some-statistical-properties-in-the-residuals-if-yes-would-it-make-sense-to-apply-it-to-complex-data">
+     1. I’m not sure about this (nor if it was covered in the lecture): if you are effectively fitting a regression model with patch2self, are you assuming some statistical properties in the residuals ()? If yes, would it make sense to apply it to complex data?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#finally-is-patch2self-modifying-the-distribution-of-data-i-mean-in-some-pre-processing-and-modelling-steps-you-are-assuming-a-noise-model-e-g-gaussian-in-the-ball-sticks-is-this-modifying-these-properties-can-we-expect-any-type-of-conflict-or-something-we-should-take-care-of-mppca-affects-because-includes-correlated-noise-and-eddy-can-fail-patch2self-does-not-in-theory">
+     1. Finally, is Patch2self modifying the distribution of data? I mean, in some pre-processing and modelling steps you are assuming a noise model (e.g. gaussian in the ball&amp;sticks). Is this modifying these properties? Can we expect any type of conflict or something we should take care of? — MPPCA affects because includes correlated noise and EDDY can fail. Patch2self does not in theory.
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#how-have-you-validated-or-controlled-the-possible-spatial-smoothing-induced-during-denoising-with-patch2self">
+     1. How have you validated or controlled the possible spatial smoothing induced during denoising with Patch2self?
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+        </nav>
+        
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="noise-in-dmri">
+<h1>NOISE IN dMRI<a class="headerlink" href="#noise-in-dmri" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="pca-based-denoising">
+<h2>PCA-based denoising<a class="headerlink" href="#pca-based-denoising" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="mppca-extracts-n-gradients-pcs-and-then-do-the-selection-on-them-how-is-it-done-in-nordic-is-the-patch-radius-the-same-in-mppca-and-nordic-should-it-be-could-this-be-biasing-our-comparisons-if-not-how-do-they-decide-the-patch-size-in-mppca-the-recommendation-is-to-go-for-radius-2-but-i-dont-know-why">
+<h3>1. MPPCA extracts n_gradients PCs and then do the selection on them. How is it done in NORDIC? Is the patch_radius the same in MPPCA and NORDIC? Should it be? Could this be “biasing” our comparisons if not? How do they decide the patch size? In MPPCA, the recommendation is to go for radius=2 (but I don’t know why)?<a class="headerlink" href="#mppca-extracts-n-gradients-pcs-and-then-do-the-selection-on-them-how-is-it-done-in-nordic-is-the-patch-radius-the-same-in-mppca-and-nordic-should-it-be-could-this-be-biasing-our-comparisons-if-not-how-do-they-decide-the-patch-size-in-mppca-the-recommendation-is-to-go-for-radius-2-but-i-dont-know-why" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="we-keep-the-larger-eigenvalues-because-the-higher-variability-should-correspond-to-the-signal-can-we-assume-this-as-true-even-in-very-low-snr-scenarios-i-e-why-cant-be-one-of-the-biggest-singular-values-related-to-noise-e-g-any-property-of-the-noise">
+<h3>2. We keep the larger eigenvalues because the higher variability should correspond to the signal. Can we assume this as true even in very low SNR scenarios? I.e., Why can’t be one of the biggest singular values related to noise (e.g. any property of the noise)?<a class="headerlink" href="#we-keep-the-larger-eigenvalues-because-the-higher-variability-should-correspond-to-the-signal-can-we-assume-this-as-true-even-in-very-low-snr-scenarios-i-e-why-cant-be-one-of-the-biggest-singular-values-related-to-noise-e-g-any-property-of-the-noise" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="assuming-we-are-not-having-any-structure-in-the-residuals-either-in-mppca-or-patch2self-what-distribution-should-follow-the-residuals-maps-white-noise-or-actually-a-rician-non-central-chi-distribution">
+<h3>3. Assuming we are not having any structure in the residuals (either in MPPCA or Patch2self)…what distribution should follow the residuals maps? white noise or actually a rician / non-central chi distribution?<a class="headerlink" href="#assuming-we-are-not-having-any-structure-in-the-residuals-either-in-mppca-or-patch2self-what-distribution-should-follow-the-residuals-maps-white-noise-or-actually-a-rician-non-central-chi-distribution" title="Permalink to this headline">¶</a></h3>
+<p>FROM DIPY: should follow the original dist…if rician, rician, if non-chi, then non-chi</p>
+</div>
+<div class="section" id="we-want-to-know-at-which-resolution-we-are-after-denoising-how-can-we-check-this-quantitatively-in-the-fmri-paper-they-compare-t-stats-and-said-nordic-didnt-induce-blurring-but-why-how-did-they-check-it-is-not-working-with-the-covariance-of-the-patch-something-similar-to-a-spatial-gaussian-filter-in-fact-they-said-it-is-identical-to-the-averaged-ones-so-does-not-introduce-blurring-supp-fig-10-dipy-workshop-spatial-smoothing-is-checking-if-the-residuals-present-any-structure-like-in-nlmeans-how-to-check-whether-phase-stabilization-is-smoothing-or-affecting-the-snr-at-all">
+<h3>4. “We want to know at which resolution we are after denoising”…how can we check this quantitatively? In the fMRI paper they compare t-stats and said NORDIC didn’t induce blurring but why? how did they check it? Is not working with the covariance of the patch something “similar” to a spatial gaussian filter? In fact, they said it is identical to the averaged ones, so does not introduce blurring (Supp.Fig.10)! DIPY workshop: spatial smoothing is checking if the residuals present any structure (like in NLMeans). How to check whether “phase stabilization is smoothing or affecting the SNR at all”?<a class="headerlink" href="#we-want-to-know-at-which-resolution-we-are-after-denoising-how-can-we-check-this-quantitatively-in-the-fmri-paper-they-compare-t-stats-and-said-nordic-didnt-induce-blurring-but-why-how-did-they-check-it-is-not-working-with-the-covariance-of-the-patch-something-similar-to-a-spatial-gaussian-filter-in-fact-they-said-it-is-identical-to-the-averaged-ones-so-does-not-introduce-blurring-supp-fig-10-dipy-workshop-spatial-smoothing-is-checking-if-the-residuals-present-any-structure-like-in-nlmeans-how-to-check-whether-phase-stabilization-is-smoothing-or-affecting-the-snr-at-all" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="do-mppca-and-or-nordic-anything-with-the-localization-of-the-eigenvectors-and-the-sparsity-induced-of-data-requirements-of-the-rmt">
+<h3>5. Do MPPCA and/or NORDIC anything with the localization of the eigenvectors and the sparsity induced of data? (requirements of the RMT)<a class="headerlink" href="#do-mppca-and-or-nordic-anything-with-the-localization-of-the-eigenvectors-and-the-sparsity-induced-of-data-requirements-of-the-rmt" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="in-cases-where-the-signal-is-really-low-and-noise-causes-rectification-how-does-nordic-and-mppca-teat-these-voxels">
+<h3>6. In cases where the signal is really low and noise causes rectification, how does NORDIC and MPPCA teat these voxels?<a class="headerlink" href="#in-cases-where-the-signal-is-really-low-and-noise-causes-rectification-how-does-nordic-and-mppca-teat-these-voxels" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="is-there-a-way-to-hack-nordic-and-make-it-work-for-cases-where-only-magnitude-sense1-data-are-present-e-g-uk-biobank-if-we-assign-the-magnitude-to-the-real-channel-and-zero-mean-noise-to-the-imaginary-will-it-work-could-this-be-applied-retrospectively-to-uk-biobank">
+<h3>7. Is there a way to “hack” NORDIC and make it work for cases where only magnitude SENSE1 data are present? E.g. UK Biobank? If we assign the magnitude to the real channel and zero-mean noise to the imaginary, will it work? Could this be applied retrospectively to UK Biobank?<a class="headerlink" href="#is-there-a-way-to-hack-nordic-and-make-it-work-for-cases-where-only-magnitude-sense1-data-are-present-e-g-uk-biobank-if-we-assign-the-magnitude-to-the-real-channel-and-zero-mean-noise-to-the-imaginary-will-it-work-could-this-be-applied-retrospectively-to-uk-biobank" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="does-it-make-sense-to-model-the-noise-floor-f0-ardf0-specially-for-the-offline-data">
+<h3>7. does it make sense to model the noise floor (<code class="docutils literal notranslate"><span class="pre">--f0</span> <span class="pre">--ardf0</span></code>), specially for the offline data?<a class="headerlink" href="#does-it-make-sense-to-model-the-noise-floor-f0-ardf0-specially-for-the-offline-data" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="why-cannot-we-assume-gaussian-noise-for-snr-3-instead-of-rician-is-the-snr-and-cnr-we-have-relatively-low">
+<h3>8. Why cannot we assume Gaussian noise (for SNR&gt;3) instead of rician? Is the SNR and CNR we have relatively low?<a class="headerlink" href="#why-cannot-we-assume-gaussian-noise-for-snr-3-instead-of-rician-is-the-snr-and-cnr-we-have-relatively-low" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="jesper-said-i-would-definitely-not-think-it-unlikely-that-they-can-add-some-real-and-useful-information-by-having-access-to-the-phase-so-what-extra-information-do-they-extract-from-the-complex-image-why-do-they-keep-the-phase">
+<h3>9. Jesper said “I would definitely not think it unlikely that they can add some real and useful information by having access to the phase” so…What extra information do they extract from the complex image? Why do they keep the phase?<a class="headerlink" href="#jesper-said-i-would-definitely-not-think-it-unlikely-that-they-can-add-some-real-and-useful-information-by-having-access-to-the-phase-so-what-extra-information-do-they-extract-from-the-complex-image-why-do-they-keep-the-phase" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="using-complex-data-phase-stabilization-without-phase-stabilization-the-diffusion-phase-has-a-high-frequency-fluctuation-along-the-slice-direction-this-limits-the-efficacy-of-the-llr-representation-model-not-allowing-for-an-effectively-low-rank-representation">
+<h3>10. Using complex data + phase-stabilization —&gt; Without phase-stabilization, the diffusion phase has a high frequency fluctuation along the slice direction. This limits the efficacy of the LLR representation model, not allowing for an effectively low-rank representation.<a class="headerlink" href="#using-complex-data-phase-stabilization-without-phase-stabilization-the-diffusion-phase-has-a-high-frequency-fluctuation-along-the-slice-direction-this-limits-the-efficacy-of-the-llr-representation-model-not-allowing-for-an-effectively-low-rank-representation" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="if-its-diffusion-are-we-working-in-k-space-or-q-space-why-have-i-read-k-space-in-multiple-places-reconstruction-of-the-images-is-the-step-from-k-space-to-the-actual-image-we-processes-right-whats-the-difference-between-doing-it-online-and-offline-the-dicom-image-is-in-k-space-and-the-nifti-in-image-space-spatial-resolution-sampling-k-space-or-a-higher-angular-resolution-sampling-q-space-angles">
+<h3>11. If it’s diffusion, are we working in k-space or q-space? Why have I read k-space in multiple places? Reconstruction of the images is the step from k-space to the actual image we processes, right? What’s the difference between doing it online and offline? The DICOM image is in k-space and the nifti in image space? spatial resolution (sampling k-space) or a higher angular resolution (sampling q-space angles)<a class="headerlink" href="#if-its-diffusion-are-we-working-in-k-space-or-q-space-why-have-i-read-k-space-in-multiple-places-reconstruction-of-the-images-is-the-step-from-k-space-to-the-actual-image-we-processes-right-whats-the-difference-between-doing-it-online-and-offline-the-dicom-image-is-in-k-space-and-the-nifti-in-image-space-spatial-resolution-sampling-k-space-or-a-higher-angular-resolution-sampling-q-space-angles" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="what-else-should-we-expect-from-nordic-than-from-mppca-as-far-as-i-understood-it-is-the-same-approach-but-they-correct-the-algorithm-to-take-into-account-for-finite-sized-matrices-and-some-statistical-assumptions-from-the-rmt-theory-but-the-mppca-paper-said-was-ok-in-practice-why-such-difference">
+<h3>12. What else should we expect from NORDIC than from MPPCA? As far as I understood, it is the same approach but they correct the algorithm to take into account for finite-sized matrices and some statistical assumptions from the RMT theory, but the MPPCA paper said was OK in practice. Why such difference?<a class="headerlink" href="#what-else-should-we-expect-from-nordic-than-from-mppca-as-far-as-i-understood-it-is-the-same-approach-but-they-correct-the-algorithm-to-take-into-account-for-finite-sized-matrices-and-some-statistical-assumptions-from-the-rmt-theory-but-the-mppca-paper-said-was-ok-in-practice-why-such-difference" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="can-we-always-assume-additive-noise-and-what-about-statistical-dependencies-is-the-spatially-varying-property-of-noise-because-of-the-sense1-reconstruction-with-multi-channel">
+<h3>13. Can we always assume additive noise? And what about statistical dependencies? Is the spatially varying property of noise because of the SENSE1 reconstruction with multi-channel?<a class="headerlink" href="#can-we-always-assume-additive-noise-and-what-about-statistical-dependencies-is-the-spatially-varying-property-of-noise-because-of-the-sense1-reconstruction-with-multi-channel" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="why-the-noise-is-i-i-d-or-stop-being-it">
+<h3>14. Why the noise is i.i.d. or stop being it?<a class="headerlink" href="#why-the-noise-is-i-i-d-or-stop-being-it" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="how-is-the-snr-calculated-in-eddyqc-with-the-2-regions-approaches-it-may-be-biased-dietrich-et-al-2007">
+<h3>15. How is the SNR calculated in EddyQC? With the 2-regions approaches? It may be biased! (Dietrich et al. 2007).<a class="headerlink" href="#how-is-the-snr-calculated-in-eddyqc-with-the-2-regions-approaches-it-may-be-biased-dietrich-et-al-2007" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="jesper-is-less-skeptical-about-k-space-filtering-than-image-based-ones-why-what-k-space-filter-methods-there-are-the-image-based-ones-attempt-to-disentangle-noise-and-signal-with-no-more-information-at-hand-than-that-available-to-for-example-model-based-or-model-free-fitting-of-the-data-so-i-struggle-to-see-how-that-can-provide-anything-meaningful">
+<h3>16. Jesper is less skeptical about k-space filtering than image-based ones. Why? What k-space filter methods there are? “The image based ones attempt to disentangle noise and signal with no more information at hand than that available to for example model-based or model-free fitting of the data. So I struggle to see how that can provide anything meaningful.<a class="headerlink" href="#jesper-is-less-skeptical-about-k-space-filtering-than-image-based-ones-why-what-k-space-filter-methods-there-are-the-image-based-ones-attempt-to-disentangle-noise-and-signal-with-no-more-information-at-hand-than-that-available-to-for-example-model-based-or-model-free-fitting-of-the-data-so-i-struggle-to-see-how-that-can-provide-anything-meaningful" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- I think they are the Hanning, elliptical, etc. filters (see slides)
+</pre></div>
+</div>
+</div>
+<div class="section" id="why-local-low-rank-approximations-instead-of-low-rank-approximations-of-the-whole-matrices-volumes-or-whatever-because-of-the-spatially-varying-noise-the-paper-of-the-llrma-of-google-said-that-with-local-approximations-the-perform-is-better">
+<h3>17. Why local low-rank approximations instead of low-rank approximations of the whole matrices (volumes or whatever)? Because of the spatially varying noise? (The paper of the LLRMA of Google said that with local approximations the perform is better).<a class="headerlink" href="#why-local-low-rank-approximations-instead-of-low-rank-approximations-of-the-whole-matrices-volumes-or-whatever-because-of-the-spatially-varying-noise-the-paper-of-the-llrma-of-google-said-that-with-local-approximations-the-perform-is-better" title="Permalink to this headline">¶</a></h3>
+<p>To work with the MP law, the noise level constant amongs all elements of X must be constant. Can we check this in the residual maps and in our data?</p>
+<p>if n_gradients is too big, the PCA methods become ill-conditioned…WHY??
+if n_gradients is too low (~30), it is very hard to estimate the correct rank of the local SVD is quite hard and you will not get good denoising (because M~npoints).</p>
+<p>Global smoothness of images used for the fMRI time series for Standard (red) and NORDIC (blue), before (left panel) and after preprocessing related interpolations.
+<a class="reference external" href="https://www.biorxiv.org/content/10.1101/2020.11.04.368357v3.full.pdf">https://www.biorxiv.org/content/10.1101/2020.11.04.368357v3.full.pdf</a></p>
+</div>
+</div>
+<div class="section" id="p2s">
+<h2>P2S<a class="headerlink" href="#p2s" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="pca-based-methods-place-the-assumptions-on-the-signal-which-can-be-really-hard-to-model-in-fact-in-patch2self-we-place-it-in-the-noise-it-is-safe-to-assume-that-thermal-noise-in-one-volume-is-independent-of-the-noise-in-the-next-and-previous-volume-is-not-the-mp-law-and-so-on-actually-making-the-assumption-on-a-random-matrix-i-e-in-the-noise-in-fact-making-assumptions-for-the-noise-model-is-not-the-same-than-making-it-in-the-data-or-this-only-applies-for-gaussian-noise-because-x-n-n">
+<h3>1. “PCA-based methods place the assumptions on the signal, which can be really hard to model in fact. In patch2self, we place it in the noise: it is safe to assume that thermal noise in one volume is independent of the noise in the next and previous volume.” Is not the MP law and so on actually making the assumption on a Random Matrix (i.e. in the noise)? In fact, making assumptions for the noise model is not the same than making it in the data (or this only applies for Gaussian noise because x+N~N)?<a class="headerlink" href="#pca-based-methods-place-the-assumptions-on-the-signal-which-can-be-really-hard-to-model-in-fact-in-patch2self-we-place-it-in-the-noise-it-is-safe-to-assume-that-thermal-noise-in-one-volume-is-independent-of-the-noise-in-the-next-and-previous-volume-is-not-the-mp-law-and-so-on-actually-making-the-assumption-on-a-random-matrix-i-e-in-the-noise-in-fact-making-assumptions-for-the-noise-model-is-not-the-same-than-making-it-in-the-data-or-this-only-applies-for-gaussian-noise-because-x-n-n" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="if-the-noise-is-independent-how-can-we-actually-predict-it-is-it-not-making-a-kind-ofimputation">
+<h3>1. If the noise is independent, how can we actually predict it? Is it not making a kind of“imputation”?<a class="headerlink" href="#if-the-noise-is-independent-how-can-we-actually-predict-it-is-it-not-making-a-kind-ofimputation" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="why-using-all-but-one-volumes-instead-of-a-typical-80-20-splitting-is-there-any-control-risk-for-overfitting-especially-for-long-acquisition-datasets-like-the-hcp-have-they-tried-k-fold-and-checked-whether-the-error-were-consistent-actually-they-said-there-is-no-minimum-n-vols-for-patch2self-in-contrast-to-mppca-30-so-why-not-use-less-volumes-to-make-it-faster">
+<h3>1. Why using ALL-BUT-ONE volumes instead of a typical 80-20 splitting? Is there any control/risk for overfitting (especially for long acquisition datasets like the HCP)? Have they tried k-fold and checked whether the error were consistent? Actually, they said “there is no minimum n_vols for patch2self in contrast to MPPCA (&gt;30)” so…why not use less volumes to make it faster?<a class="headerlink" href="#why-using-all-but-one-volumes-instead-of-a-typical-80-20-splitting-is-there-any-control-risk-for-overfitting-especially-for-long-acquisition-datasets-like-the-hcp-have-they-tried-k-fold-and-checked-whether-the-error-were-consistent-actually-they-said-there-is-no-minimum-n-vols-for-patch2self-in-contrast-to-mppca-30-so-why-not-use-less-volumes-to-make-it-faster" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="they-dont-use-patches-radius-0-is-the-recommended-shall-we-observe-any-covariance-then-if-we-analyse-the-residuals-of-neighbor-voxels">
+<h3>1. They don’t use patches (radius=0 is the recommended)…shall we observe any covariance then if we analyse the residuals of neighbor voxels?<a class="headerlink" href="#they-dont-use-patches-radius-0-is-the-recommended-shall-we-observe-any-covariance-then-if-we-analyse-the-residuals-of-neighbor-voxels" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="they-said-it-makes-sense-to-apply-pca-based-patch2self-if-yes-it-would-not-matter-which-one-use-first-right">
+<h3>1. They said it makes sense to apply PCA-based + patch2self. If yes…it would not matter which one use first, right?<a class="headerlink" href="#they-said-it-makes-sense-to-apply-pca-based-patch2self-if-yes-it-would-not-matter-which-one-use-first-right" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="at-then-end-patch2self-is-a-linear-regression-residuals-of-linear-regression-have-a-series-of-assumptions-same-variance-etc-could-we-extract-any-info-from-here">
+<h3>1. At then end, patch2self is a linear regression. Residuals of linear regression have a series of assumptions (same variance, etc.). Could we extract any info from here?<a class="headerlink" href="#at-then-end-patch2self-is-a-linear-regression-residuals-of-linear-regression-have-a-series-of-assumptions-same-variance-etc-could-we-extract-any-info-from-here" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="jesper-andersson-commented-2-interesting-things">
+<h3>1. Jesper Andersson commented 2 interesting things:<a class="headerlink" href="#jesper-andersson-commented-2-interesting-things" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>1. After the training they then go on to make the predictions that form the basis for their denoised data. Now, I might have misunderstood this because it sounds so strange, but this is how I understand it. They again use the data from all volumes except one to make the prediction for the left out one. Which would mean that when you predict volume j, you don&#39;t actually use any of the information in volume j. I hope I have misunderstood it.
+2. “Anyhoo, my strong prediction here is that similarly to replacing all the data with &quot;model&quot; predictions from eddy or SHARD, this will make any inference on the data (such as number of fibres) difficult or impossible.” — WHY???
+</pre></div>
+</div>
+</div>
+<div class="section" id="im-not-sure-about-this-nor-if-it-was-covered-in-the-lecture-if-you-are-effectively-fitting-a-regression-model-with-patch2self-are-you-assuming-some-statistical-properties-in-the-residuals-if-yes-would-it-make-sense-to-apply-it-to-complex-data">
+<h3>1. I’m not sure about this (nor if it was covered in the lecture): if you are effectively fitting a regression model with patch2self, are you assuming some statistical properties in the residuals ()? If yes, would it make sense to apply it to complex data?<a class="headerlink" href="#im-not-sure-about-this-nor-if-it-was-covered-in-the-lecture-if-you-are-effectively-fitting-a-regression-model-with-patch2self-are-you-assuming-some-statistical-properties-in-the-residuals-if-yes-would-it-make-sense-to-apply-it-to-complex-data" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>They don’t have support for complex data yet, but it should be fine applying it to magnitude, they don’t assume anything (but as previous question, they haven’t checked this)</p></li>
+</ul>
+</div>
+<div class="section" id="finally-is-patch2self-modifying-the-distribution-of-data-i-mean-in-some-pre-processing-and-modelling-steps-you-are-assuming-a-noise-model-e-g-gaussian-in-the-ball-sticks-is-this-modifying-these-properties-can-we-expect-any-type-of-conflict-or-something-we-should-take-care-of-mppca-affects-because-includes-correlated-noise-and-eddy-can-fail-patch2self-does-not-in-theory">
+<h3>1. Finally, is Patch2self modifying the distribution of data? I mean, in some pre-processing and modelling steps you are assuming a noise model (e.g. gaussian in the ball&amp;sticks). Is this modifying these properties? Can we expect any type of conflict or something we should take care of? — MPPCA affects because includes correlated noise and EDDY can fail. Patch2self does not in theory.<a class="headerlink" href="#finally-is-patch2self-modifying-the-distribution-of-data-i-mean-in-some-pre-processing-and-modelling-steps-you-are-assuming-a-noise-model-e-g-gaussian-in-the-ball-sticks-is-this-modifying-these-properties-can-we-expect-any-type-of-conflict-or-something-we-should-take-care-of-mppca-affects-because-includes-correlated-noise-and-eddy-can-fail-patch2self-does-not-in-theory" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="how-have-you-validated-or-controlled-the-possible-spatial-smoothing-induced-during-denoising-with-patch2self">
+<h3>1. How have you validated or controlled the possible spatial smoothing induced during denoising with Patch2self?<a class="headerlink" href="#how-have-you-validated-or-controlled-the-possible-spatial-smoothing-induced-during-denoising-with-patch2self" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Checking the residuals qualitatively (Abs(residuals) should not have any edge or structure) and they didnt see any structure (as you could see in non-local means).</p></li>
+</ul>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./Q&A"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By J.P. Manzano-Patron<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+  </body>
+</html>
